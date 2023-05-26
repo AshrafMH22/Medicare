@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+  mysql-my-movie-plan:
+    image: mysql:latest
+    container_name: mysql-medicare
+    environment:
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=
+      - MYSQL_DATABASE=medicare
+    command: sh mysql -u root -p
+            CREATE DATABASE medicare
+            USE medicare
+            source Medicare/Medicare-DB-SQL/medicare_hibernate_sequence.sql
+            source Medicare/Medicare-DB-SQL/medicare_product_image.sql
+            source Medicare/Medicare-DB-SQL/medicare_product_quantity.sql
+            source Medicare/Medicare-DB-SQL/medicare_products.sql
+            source Medicare/Medicare-DB-SQL/medicare_roles.sql
+            source Medicare/Medicare-DB-SQL/medicare_user_order_products.sql
+            source Medicare/Medicare-DB-SQL/medicare_user_order.sql
+            source Medicare/Medicare-DB-SQL/medicare_user_role.sql
+            source Medicare/Medicare-DB-SQL/medicare_users.sql
+  springboot-docker-container:
+    image: springboot-medicare
+    container_name: springboot-medicare
+    ports:
+      - 9090:5555
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    depends_on:
+      - mysql-medicare

@@ -1,0 +1,8 @@
+version: "3.2"
+
+services:
+  Angular-medicare:
+    container_name: angular-medicare
+    build:
+      context: ./
+      dockerfile: .
